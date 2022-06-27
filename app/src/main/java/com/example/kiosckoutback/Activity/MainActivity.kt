@@ -79,6 +79,7 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
     }
 
 
+
     fun initEvent() {
         val steak_btn = findViewById<Button>(R.id.steakBtn)
         steak_btn.setOnClickListener {
@@ -89,7 +90,8 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
             fragmentSteak.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.main_fragment, fragmentSteak)
                 .commit()
-            showDialog()
+
+
         }
 
         val pasta_btn = findViewById<Button>(R.id.pastaBtn)
@@ -168,10 +170,6 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
 //        }
 //    }
 
-    fun showDialog() {
-        val fragmentManager = supportFragmentManager
-        val newFragment = dialogClass()
-        newFragment.show(fragmentManager, "dialog")
-    }
+
 }
 

@@ -1,6 +1,7 @@
 package com.example.kiosckoutback.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.kiosckoutback.Activity.DataFromFragment
-import com.example.kiosckoutback.CartClass
 import com.example.kiosckoutback.DataBase
 import com.example.kiosckoutback.R
+import com.example.kiosckoutback.dialogClass
 
 class SteakFragment : Fragment() {
     var total=arrayOf(0,0,0)
@@ -32,11 +33,29 @@ class SteakFragment : Fragment() {
         return fragment
     }
     fun initEvent( number: Int){
+        showDialog()
+        Log.d("qwe",newFragment.isCancelable.toString())
+        if (newFragment.isCancelable){
+            insertEvent(number)
+            Log.d("qwe","1235")
+        }
+    }
+
+    fun insertEvent(number: Int)
+    {
         total[number]+=1
-        val text=dataList[number][0]+" 추가되었습니다 "
+        val text=dataList[number][0]+" 추가되었습니다"
         Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
         val dataInterface = context as DataFromFragment
-        dataInterface.sendData("steak",dataList[number][0],total[number].toString(),dataList[number][1])
+        dataInterface.sendData("pasta",dataList[number][0],total[number].toString(),dataList[number][1])
+    }
+
+    lateinit var newFragment : dialogClass
+
+    fun showDialog() {
+        newFragment= dialogClass()
+        val fragmentManager=requireActivity().supportFragmentManager
+        newFragment.show(fragmentManager, "dialog")
     }
 
 }
