@@ -12,7 +12,6 @@ import com.example.kiosckoutback.R
 
 
 class ReceiptActivity : AppCompatActivity() {
-
     var cart= mutableListOf<Array<String>>()
     private var doubleBackToExit = false
     override fun onBackPressed() {
@@ -34,17 +33,14 @@ class ReceiptActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.receipt_page_activity)
-
         var sequance=intent.getStringExtra("index")
         var total=intent.getStringExtra("total")
-
         for (index in 0 until sequance!!.toInt()) {
             var getCart=intent.getStringArrayExtra("cart${index}")
             cart.add(getCart!!)
         }
         initRecipt(total.toString())
         initBtn()
-
     }
 
     fun initRecipt(total:String){
@@ -53,9 +49,7 @@ class ReceiptActivity : AppCompatActivity() {
             text+="${cart[index][0]} * ${cart[index][1]} \n"
         }
         findViewById<TextView>(R.id.reciptMenu).text = text
-
         findViewById<TextView>(R.id.reciptTotal).text="총합 : ${total}"
-
     }
     fun initBtn(){
         findViewById<TextView>(R.id.backBtn).setOnClickListener{

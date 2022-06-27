@@ -8,8 +8,6 @@ import com.example.kiosckoutback.R
 
 
 class StartActivity : AppCompatActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.start_page_activity)

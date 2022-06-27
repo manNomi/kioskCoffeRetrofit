@@ -55,13 +55,10 @@
             android:textSize="30dp"
             android:background="@color/outback_red"
             />
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="0.5" />
-
-
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="0dp"
@@ -70,8 +67,6 @@
             android:src="@mipmap/outback_logo"
             android:background="@color/outback_red"
             />
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -82,7 +77,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         android:background="@color/outback_red"
         >
-
         <Button
             android:id="@+id/steakBtn"
             android:layout_width="wrap_content"
@@ -95,15 +89,14 @@
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="parent"
             android:padding="10dp"/>
-
         <Button
             android:id="@+id/pastaBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/white"
-            android:text="파스타"            android:textColor="@color/black"
-
+            android:text="파스타"
+            android:textColor="@color/black"
             android:textSize="23dp"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,9 +114,7 @@
             android:padding="10dp"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="parent" />
-
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -133,13 +124,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/outback_red"
         >
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/outback_red"
-
             />
 
         <Button

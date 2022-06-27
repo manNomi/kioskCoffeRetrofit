@@ -10,7 +10,6 @@
         android:background="@drawable/border_backgruond"
         android:orientation="horizontal"
         >
-
         <TextView
             android:id="@+id/cartName"
             android:layout_width="0dp"
@@ -22,7 +21,6 @@
             android:layout_weight="0.5"
             android:background="@color/blind"
             android:textColor="@color/black"/>
-
         <Button
             android:id="@+id/plus"
             android:layout_width="0dp"
@@ -33,7 +31,6 @@
             android:layout_gravity="center"
             android:background="@color/blind"
             android:textColor="@color/black"
-
             />
         <Button
             android:id="@+id/minus"
@@ -58,7 +55,5 @@
             android:layout_weight="0.1"
             android:textColor="@color/black"
             android:background="@color/blind"/>
-
     </LinearLayout>
-
 </LinearLayout>

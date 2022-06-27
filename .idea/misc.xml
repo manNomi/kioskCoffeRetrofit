@@ -7,12 +7,15 @@
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/drawable/border_backgruond.xml" value="0.23" />
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/drawable/border_blind.xml" value="0.1065" />
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/drawable/border_line.xml" value="0.23" />
+        <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/drawable/dialog_edittext_background.xml" value="0.145" />
+        <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/drawable/dialog_radius_background.xml" value="0.145" />
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/drawable/ic_launcher_background.xml" value="0.23" />
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/font/my_font.xml" value="0.2490740740740741" />
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/activity_main.xml" value="0.17451874366767983" />
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/cart_page_activity.xml" value="0.16058763931104356" />
-        <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/custom_cart_btn.xml" value="0.22" />
-        <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/custom_image_btn.xml" value="0.28888888888888886" />
+        <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/custom_cart_btn.xml" value="0.19831223628691982" />
+        <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/custom_image_btn.xml" value="0.18076923076923077" />
+        <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/dialog_insert.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/main_page.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/main_page_activity.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/hanmw/AndroidStudioProjects/KiosckOutback/app/src/main/res/layout/main_page_fragment_steak.xml" value="0.22" />
