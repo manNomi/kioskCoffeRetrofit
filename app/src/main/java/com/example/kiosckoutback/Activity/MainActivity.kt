@@ -1,23 +1,43 @@
 package com.example.kiosckoutback.Activity
 
+import android.content.ComponentName
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.*
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.fragment.app.FragmentTransaction
+import androidx.core.content.ContextCompat
 import com.example.kiosckoutback.CartClass
 import com.example.kiosckoutback.Fragment.PastaFragment
 import com.example.kiosckoutback.Fragment.SteakFragment
 import com.example.kiosckoutback.Fragment.WineFragment
+import com.example.kiosckoutback.MyService
 import com.example.kiosckoutback.R
-import com.example.kiosckoutback.dialogClass
 
 interface DataFromFragment{
     fun sendData(receive_type:String,receive_name:String,receive_count: String,receive_pay:String)
 }
+
+
 class MainActivity() : AppCompatActivity(),DataFromFragment {
+
+    lateinit var myService: MyService
+    var isService = false
+    var connection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
+            val binder = service as MyService.MyBinder
+            myService = binder.getService()
+            isService = true
+        }
+        override fun onServiceDisconnected(className: ComponentName?) {
+            isService = false
+        }
+    }
+
+
     private var doubleBackToExit = false
     override fun onBackPressed() {
         if (doubleBackToExit) {
@@ -35,6 +55,23 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 
+    override fun onStop() {
+        super.onStop()
+        Log.d("qwe","멈춤")
+        val intent = Intent(this, MyService::class.java)
+        ContextCompat.startForegroundService(this, intent)
+    }
+
+
+    override fun onRestart() {
+        super.onRestart()
+    }
+
+//    fun ServiceStart(view: View) {
+//        val intent = Intent(this, MyService::class.java)
+//        ContextCompat.startForegroundService(this, intent)
+//    }
+
     lateinit var cartClass: CartClass
 
     override fun sendData(
@@ -46,16 +83,11 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         cartClass.addCart(receive_type, receive_name, receive_count, receive_pay)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_page_activity)
 
-//        var sequance=intent.getStringExtra("index")
-//        if (sequance!=null){
-//            for (index in 0 until sequance!!.toInt()) {
-//                var getCart=intent.getStringArrayExtra("cart${index}")
-//                cart.add(getCart!!)}
-//        }
 
         var sequance = intent.getStringExtra("index")
         if (sequance != null) {
@@ -83,6 +115,7 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
     fun initEvent() {
         val steak_btn = findViewById<Button>(R.id.steakBtn)
         steak_btn.setOnClickListener {
+
             val fragmentSteak = SteakFragment()
             val bundle = Bundle()
 

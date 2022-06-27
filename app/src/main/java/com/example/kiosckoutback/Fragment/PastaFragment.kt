@@ -36,9 +36,7 @@ class PastaFragment : Fragment() {
     }
 
     fun initEvent( number: Int){
-        total[number]+=1
-        val text=dataList[number][0]+" 추가되었습니다"
-        showDialog(text)
+        showDialog()
         Log.d("qwe",newFragment.isCancelable.toString())
         if (newFragment.isCancelable){
                 insertEvent(number)
@@ -57,7 +55,7 @@ class PastaFragment : Fragment() {
 
     lateinit var newFragment :dialogClass
 
-    fun showDialog(text:String) {
+    fun showDialog() {
         newFragment=dialogClass()
         val fragmentManager=requireActivity().supportFragmentManager
         newFragment.show(fragmentManager, "dialog")
