@@ -38,10 +38,7 @@ class CartActivity : AppCompatActivity() {
         var sequance=intent.getStringExtra("index")
 
         cartClass=intent.getSerializableExtra("DATA") as CartClass
-//        for (index in 0 until sequance!!.toInt()) {
-//        var getCart=intent.getStringArrayExtra("cart${index}")
-//            cart.add(getCart!!)
-//        }
+
         totalCal()
         initCart()
         initEvent()
@@ -79,13 +76,6 @@ class CartActivity : AppCompatActivity() {
             }
             else {
                 val intent = Intent(this, ReceiptActivity::class.java)
-                intent.putExtra("total",cartClass.totalCal().toString())
-//                var text= mutableListOf<String>()
-//                for(index in 0 until cart.size) {
-//                    text.add("cart" + "${index}")
-//                    intent.putExtra(text[index], cart[index])
-//                }
-//
                 intent.putExtra("cart",cartClass)
                 startActivity(intent)
                 finish()

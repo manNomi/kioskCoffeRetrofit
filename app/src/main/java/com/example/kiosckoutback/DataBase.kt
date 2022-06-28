@@ -1,6 +1,10 @@
 package com.example.kiosckoutback
+import com.google.gson.Gson
+class DataBase {
+    constructor(){
+        initMenu()
+    }
 
-class DataBase() {
     val dataListPasta = arrayOf(
         arrayOf("스테이크 투움바 - 29,900","29900"),
         arrayOf("슈림프 아라비아따 - 25,900","25900"),
@@ -31,7 +35,50 @@ class DataBase() {
         R.mipmap.wine1, R.mipmap.wine2, R.mipmap.wine3
     )
 
+    data class Menu(
+        val name:String,
+        val price:String,
+        val image:Int,
+    )
+    val pastaMenuList= mutableListOf<Menu>()
+    val steakMenuList= mutableListOf<Menu>()
+    val wineMenuList= mutableListOf<Menu>()
 
+
+    data class MenuList(
+        val type:String,
+    )
+    fun initMenu(){
+
+        val gson= Gson()
+
+        for (index in 0 until dataListPasta.size){
+        val jsonData="{'name': '${dataListPasta[index][0]}','price':'${dataListPasta[index][1]}','image':'${pastaList[index]}'}"
+
+        val myAccountData=gson.fromJson(jsonData,Menu::class.java)
+            pastaMenuList.add(myAccountData)
+        }
+
+        for (index in 0 until dataListSteak.size){
+            val jsonData="{'name': '${dataListSteak[index][0]}','price':'${dataListSteak[index][1]}','image':'${steakList[index]}'}"
+
+            val myAccountData=gson.fromJson(jsonData,Menu::class.java)
+            steakMenuList.add(myAccountData)
+        }
+
+        for (index in 0 until dataListWine.size){
+            val jsonData="{'name': '${dataListWine[index][0]}','price':'${dataListWine[index][1]}','image':'${wineList[index]}'}"
+
+            val myAccountData=gson.fromJson(jsonData,Menu::class.java)
+            wineMenuList.add(myAccountData)
+        }
+
+
+
+
+
+
+    }
 
 }
 

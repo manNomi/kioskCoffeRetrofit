@@ -12,11 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Outback">
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true"></service>
-
         <activity
             android:name=".Activity.StartActivity"
             android:exported="true">
@@ -29,6 +24,10 @@
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.CartActivity" />
         <activity android:name=".Activity.ReceiptActivity" />
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

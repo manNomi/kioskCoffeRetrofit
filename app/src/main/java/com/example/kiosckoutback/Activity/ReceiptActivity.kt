@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kiosckoutback.CartClass
 import com.example.kiosckoutback.R
 
 
@@ -30,26 +31,40 @@ class ReceiptActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 
+    lateinit var cartClass: CartClass
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.receipt_page_activity)
-        var sequance=intent.getStringExtra("index")
-        var total=intent.getStringExtra("total")
-        for (index in 0 until sequance!!.toInt()) {
-            var getCart=intent.getStringArrayExtra("cart${index}")
-            cart.add(getCart!!)
-        }
-        initRecipt(total.toString())
+
+//        var sequance=intent.getStringExtra("index")
+//        var total=intent.getStringExtra("total")
+//        for (index in 0 until sequance!!.toInt()) {
+//            var getCart=intent.getStringArrayExtra("cart${index}")
+//            cart.add(getCart!!)
+//        }
+
+        cartClass=intent.getSerializableExtra("cart")as CartClass
+
+
+
+        initRecipt()
         initBtn()
     }
 
-    fun initRecipt(total:String){
+    fun initRecipt(){
         var text=""
-        for (index in 0 until cart.size) {
-            text+="${cart[index][0]} * ${cart[index][1]} \n"
+        for (index in 0 until  cartClass.cartPasta.size){
+            text+="${cartClass.cartPasta[index][0]} * ${cartClass.cartPasta[index][1]} \n"
+        }
+        for (index in 0 until  cartClass.cartWine.size){
+            text+="${cartClass.cartWine[index][0]} * ${cartClass.cartWine[index][1]} \n"
+        }
+        for (index in 0 until  cartClass.cartSteak.size){
+            text+="${cartClass.cartSteak[index][0]} * ${cartClass.cartSteak[index][1]} \n"
         }
         findViewById<TextView>(R.id.reciptMenu).text = text
-        findViewById<TextView>(R.id.reciptTotal).text="총합 : ${total}"
+        findViewById<TextView>(R.id.reciptTotal).text="총합 : ${cartClass.totalCal()}"
     }
     fun initBtn(){
         findViewById<TextView>(R.id.backBtn).setOnClickListener{

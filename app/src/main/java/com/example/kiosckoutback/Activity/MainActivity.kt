@@ -1,6 +1,7 @@
 package com.example.kiosckoutback.Activity
 
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.*
@@ -37,7 +38,6 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         }
     }
 
-
     private var doubleBackToExit = false
     override fun onBackPressed() {
         if (doubleBackToExit) {
@@ -57,14 +57,15 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
 
     override fun onStop() {
         super.onStop()
-        Log.d("qwe","멈춤")
         val intent = Intent(this, MyService::class.java)
+        intent.putExtra("DATA",cartClass)
         ContextCompat.startForegroundService(this, intent)
     }
 
 
     override fun onRestart() {
         super.onRestart()
+//        cartClass = intent.getSerializableExtra("DATA") as CartClass
     }
 
 //    fun ServiceStart(view: View) {
@@ -109,8 +110,6 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         supportFragmentManager.beginTransaction().replace(R.id.main_fragment, fragmentSteak)
             .commit()
     }
-
-
 
     fun initEvent() {
         val steak_btn = findViewById<Button>(R.id.steakBtn)
