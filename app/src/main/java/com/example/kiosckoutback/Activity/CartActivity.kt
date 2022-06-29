@@ -1,17 +1,30 @@
 package com.example.kiosckoutback.Activity
 
+import android.content.ComponentName
 import android.content.Intent
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Parcelable
+import android.content.ServiceConnection
+import android.os.*
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.kiosckoutback.CartClass
+import com.example.kiosckoutback.MyService
 import com.example.kiosckoutback.R
 
 class CartActivity : AppCompatActivity() {
+    lateinit var myService: MyService
+    var isService = false
+    var connection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
+            val binder = service as MyService.MyBinder
+            myService = binder.getService()
+            isService = true
+        }
+        override fun onServiceDisconnected(className: ComponentName?) {
+            isService = false
+        }
+    }
     private var doubleBackToExit = false
     override fun onBackPressed() {
         if (doubleBackToExit) {
@@ -28,6 +41,14 @@ class CartActivity : AppCompatActivity() {
     fun runDelayed(millis: Long, function: () -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
+
+    override fun onStop() {
+        super.onStop()
+        val intent = Intent(this, MyService::class.java)
+        intent.putExtra("DATA",cartClass)
+        ContextCompat.startForegroundService(this, intent)
+    }
+
 
     lateinit var cartClass: CartClass
 
@@ -88,8 +109,8 @@ class CartActivity : AppCompatActivity() {
         val viewArraySteak= mutableListOf<TextView>()
         for (index in 0 until cartClass.cartSteak.size){
         val customLinear = layoutInflater.inflate(R.layout.custom_image_btn, linearLayout, false)
-        customLinear.findViewById<TextView>(R.id.cartName).text = cartClass.cartSteak[index][0]
-        customLinear.findViewById<TextView>(R.id.cartValue).text=cartClass.cartSteak[index][1]
+        customLinear.findViewById<TextView>(R.id.cartName).text = cartClass.cartSteak[index].name
+        customLinear.findViewById<TextView>(R.id.cartValue).text=cartClass.cartSteak[index].count
             val viewSteak=customLinear.findViewById<TextView>(R.id.cartValue)
             viewArraySteak.add(viewSteak)
             customLinear.findViewById<Button>(R.id.plus).setOnClickListener{psEvent(index,viewArraySteak,"steak")}
@@ -101,8 +122,8 @@ class CartActivity : AppCompatActivity() {
 
         for (index in 0 until cartClass.cartPasta.size){
             val customLinear = layoutInflater.inflate(R.layout.custom_image_btn, linearLayout, false)
-            customLinear.findViewById<TextView>(R.id.cartName).text = cartClass.cartPasta[index][0]
-            customLinear.findViewById<TextView>(R.id.cartValue).text=cartClass.cartPasta[index][1]
+            customLinear.findViewById<TextView>(R.id.cartName).text = cartClass.cartPasta[index].name
+            customLinear.findViewById<TextView>(R.id.cartValue).text=cartClass.cartPasta[index].count
             val viewPasta=customLinear.findViewById<TextView>(R.id.cartValue)
             viewArrayPasta.add(viewPasta)
             customLinear.findViewById<Button>(R.id.plus).setOnClickListener{psEvent(index,viewArrayPasta,"pasta")}
@@ -114,8 +135,8 @@ class CartActivity : AppCompatActivity() {
 
         for (index in 0 until cartClass.cartWine.size){
             val customLinear = layoutInflater.inflate(R.layout.custom_image_btn, linearLayout, false)
-            customLinear.findViewById<TextView>(R.id.cartName).text = cartClass.cartWine[index][0]
-            customLinear.findViewById<TextView>(R.id.cartValue).text=cartClass.cartWine[index][1]
+            customLinear.findViewById<TextView>(R.id.cartName).text = cartClass.cartWine[index].name
+            customLinear.findViewById<TextView>(R.id.cartValue).text=cartClass.cartWine[index].count
             val viewWine=customLinear.findViewById<TextView>(R.id.cartValue)
             viewArrayWine.add(viewWine)
             customLinear.findViewById<Button>(R.id.plus).setOnClickListener{psEvent(index,viewArrayWine,"wine")}
@@ -126,59 +147,59 @@ class CartActivity : AppCompatActivity() {
 
     fun psEvent(number: Int,view: MutableList<TextView>,type:String) {
         if(type=="steak"){
-            cartClass.cartSteak[number][1]=(cartClass.cartSteak[number][1].toInt()+1).toString()
-            view[number].text=cartClass.cartSteak[number][1]
+            cartClass.cartSteak[number].count=(cartClass.cartSteak[number].count.toInt()+1).toString()
+            view[number].text=cartClass.cartSteak[number].count
             totalCal()
         }
         else if(type=="pasta"){
-            cartClass.cartPasta[number][1]=(cartClass.cartPasta[number][1].toInt()+1).toString()
-            view[number].text=cartClass.cartPasta[number][1]
+            cartClass.cartPasta[number].count=(cartClass.cartPasta[number].count.toInt()+1).toString()
+            view[number].text=cartClass.cartPasta[number].count
             totalCal()
         }
         else if(type=="wine"){
-            cartClass.cartWine[number][1]=(cartClass.cartWine[number][1].toInt()+1).toString()
-            view[number].text=cartClass.cartWine[number][1]
+            cartClass.cartWine[number].count=(cartClass.cartWine[number].count.toInt()+1).toString()
+            view[number].text=cartClass.cartWine[number].count
             totalCal()
         }
     }
 
     fun msEvent(number: Int,view: MutableList<TextView>,linearLayout: LinearLayout,customView: View,type:String) {
         if(type=="steak"){
-            if(cartClass.cartSteak[number][1].toInt()==1)
+            if(cartClass.cartSteak[number].count.toInt()==1)
             {
                 cartClass.cartSteak.removeAt(number)
                 linearLayout.removeAllViews()
                 initCart()
             }
             else {
-                cartClass.cartSteak[number][1] = (cartClass.cartSteak[number][1].toInt() - 1).toString()
-                view[number].text = cartClass.cartSteak[number][1]
+                cartClass.cartSteak[number].count = (cartClass.cartSteak[number].count.toInt() - 1).toString()
+                view[number].text = cartClass.cartSteak[number].count
             }
             totalCal()
         }
         else if(type=="pasta"){
-            if(cartClass.cartPasta[number][1].toInt()==1)
+            if(cartClass.cartPasta[number].count.toInt()==1)
             {
                 cartClass.cartPasta.removeAt(number)
                 linearLayout.removeAllViews()
                 initCart()
             }
             else {
-                cartClass.cartPasta[number][1] = (cartClass.cartPasta[number][1].toInt() - 1).toString()
-                view[number].text = cartClass.cartPasta[number][1]
+                cartClass.cartPasta[number].count = (cartClass.cartPasta[number].count.toInt() - 1).toString()
+                view[number].text = cartClass.cartPasta[number].count
             }
             totalCal()
         }
         else if(type=="wine"){
-            if(cartClass.cartWine[number][1].toInt()==1)
+            if(cartClass.cartWine[number].count.toInt()==1)
             {
                 cartClass.cartWine.removeAt(number)
                 linearLayout.removeAllViews()
                 initCart()
             }
             else {
-                cartClass.cartWine[number][1] = (cartClass.cartWine[number][1].toInt() - 1).toString()
-                view[number].text = cartClass.cartWine[number][1]
+                cartClass.cartWine[number].count = (cartClass.cartWine[number].count.toInt() - 1).toString()
+                view[number].text = cartClass.cartWine[number].count
             }
             totalCal()
         }

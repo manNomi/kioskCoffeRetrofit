@@ -55,13 +55,13 @@ class ReceiptActivity : AppCompatActivity() {
     fun initRecipt(){
         var text=""
         for (index in 0 until  cartClass.cartPasta.size){
-            text+="${cartClass.cartPasta[index][0]} * ${cartClass.cartPasta[index][1]} \n"
+            text+="${cartClass.cartPasta[index].name} * ${cartClass.cartPasta[index].count} \n"
         }
         for (index in 0 until  cartClass.cartWine.size){
-            text+="${cartClass.cartWine[index][0]} * ${cartClass.cartWine[index][1]} \n"
+            text+="${cartClass.cartWine[index].name} * ${cartClass.cartWine[index].count} \n"
         }
         for (index in 0 until  cartClass.cartSteak.size){
-            text+="${cartClass.cartSteak[index][0]} * ${cartClass.cartSteak[index][1]} \n"
+            text+="${cartClass.cartSteak[index].name} * ${cartClass.cartSteak[index].count} \n"
         }
         findViewById<TextView>(R.id.reciptMenu).text = text
         findViewById<TextView>(R.id.reciptTotal).text="총합 : ${cartClass.totalCal()}"

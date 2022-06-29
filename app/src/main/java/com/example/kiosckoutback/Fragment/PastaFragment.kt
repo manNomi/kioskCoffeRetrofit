@@ -25,7 +25,6 @@ class PastaFragment : Fragment() {
 
         val linearLayout = fragment.findViewById<LinearLayout>(R.id.steakLinear)
 
-
         for (index in 0 until dataList.size) {
             val customLinear = layoutInflater.inflate(R.layout.custom_cart_btn, linearLayout, false)
             customLinear.findViewById<TextView>(R.id.foodText).text = dataList[index].name
@@ -34,7 +33,6 @@ class PastaFragment : Fragment() {
             Glide.with(fragment)
                 .load(dataList[index].image)
                 .into(image)
-
             customLinear.findViewById<LinearLayout>(R.id.steakBtnLinear).setOnClickListener{initEvent(index)}
             linearLayout.addView(customLinear)
         }

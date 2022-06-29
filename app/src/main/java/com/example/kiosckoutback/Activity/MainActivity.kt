@@ -162,15 +162,6 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
 //            repeatCart()
             val intent = Intent(this, CartActivity::class.java)
 
-
-//            intent.putExtra("index", cart.size.toString())
-//
-//            var text= mutableListOf<String>()
-//            for(index in 0 until cart.size) {
-//                text.add("cart" + "${index}")
-//                intent.putExtra(text[index], cart[index])
-//            }
-
             intent.putExtra("DATA", cartClass)
 
             startActivity(intent)

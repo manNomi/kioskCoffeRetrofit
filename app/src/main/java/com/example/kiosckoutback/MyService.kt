@@ -12,10 +12,16 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.example.kiosckoutback.Activity.MainActivity
 
+
+// 바인드 - > 데이터 오는것 class.add
+
 class MyService : Service() {
     val SC = "myService"
     var noti : Notification? = null
     var notiManager: NotificationManager? = null
+    lateinit var cartClass: CartClass
+    var totalCal=""
+    val iBinder = MyBinder()
 
     fun Notification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -44,15 +50,9 @@ class MyService : Service() {
         }
     }
 
-
     inner class MyBinder : Binder() {
         fun getService(): MyService = this@MyService
     }
-
-    lateinit var cartClass: CartClass
-
-    var totalCal=""
-
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         cartClass = intent!!.getSerializableExtra("DATA") as CartClass
@@ -62,12 +62,8 @@ class MyService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-
-    val iBinder = MyBinder()
     override fun onBind(intent: Intent): IBinder {
-
-
-
+//        getExtra
         return iBinder
     }
 }
