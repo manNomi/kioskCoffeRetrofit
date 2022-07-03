@@ -1,8 +1,10 @@
 package com.example.kiosckoutback.Activity
 
+import android.app.Service
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NO_USER_ACTION
 import android.content.ServiceConnection
 import android.os.*
 import android.util.Log
@@ -25,18 +27,7 @@ interface DataFromFragment{
 
 class MainActivity() : AppCompatActivity(),DataFromFragment {
 
-    lateinit var myService: MyService
-    var isService = false
-    var connection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
-            val binder = service as MyService.MyBinder
-            myService = binder.getService()
-            isService = true
-        }
-        override fun onServiceDisconnected(className: ComponentName?) {
-            isService = false
-        }
-    }
+
 
     private var doubleBackToExit = false
     override fun onBackPressed() {
@@ -55,23 +46,41 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 
-    override fun onStop() {
-        super.onStop()
-        val intent = Intent(this, MyService::class.java)
-        intent.putExtra("DATA",cartClass)
-        ContextCompat.startForegroundService(this, intent)
+    lateinit var myService: MyService
+    var isService = false
+    var connection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
+            val binder = service as MyService.MyBinder
+            myService = binder.getService()
+            isService = true
+        }
+        override fun onServiceDisconnected(className: ComponentName?) {
+            isService = false
+        }
     }
 
+
+    lateinit var intentService:Intent
+
+    override fun onUserLeaveHint () {
+        super.onUserLeaveHint ()
+//        intentService= Intent(this, MyService::class.java)
+        serviceBind()
+        ContextCompat.startForegroundService(this, intentService)
+    }
 
     override fun onRestart() {
         super.onRestart()
-//        cartClass = intent.getSerializableExtra("DATA") as CartClass
+        cartClass= myService?.bindServiceReturn()
+        intentService.putExtra("stop","stop")
+        ContextCompat.startForegroundService(this, intentService)
     }
 
-//    fun ServiceStart(view: View) {
-//        val intent = Intent(this, MyService::class.java)
-//        ContextCompat.startForegroundService(this, intent)
-//    }
+    fun serviceBind()
+    {
+        intentService.putExtra("DATA",cartClass)
+        bindService(intentService, connection, Context.BIND_AUTO_CREATE)
+    }
 
     lateinit var cartClass: CartClass
 
@@ -90,13 +99,18 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         setContentView(R.layout.main_page_activity)
 
 
+
+
         var sequance = intent.getStringExtra("index")
         if (sequance != null) {
             cartClass = intent.getSerializableExtra("cart") as CartClass
         } else {
             cartClass = CartClass()
         }
-        firstInitStaek()
+
+        intentService= Intent(this, MyService::class.java)
+        serviceBind()
+            firstInitStaek()
         initEvent()
     }
 
@@ -160,12 +174,16 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         val cart_btn = findViewById<Button>(R.id.cartMoveBtn)
         cart_btn.setOnClickListener {
 //            repeatCart()
+//            if (myService!=null){
+//            cartClass = myService?.bindServiceReturn()
+//        }
             val intent = Intent(this, CartActivity::class.java)
 
             intent.putExtra("DATA", cartClass)
+            intent.addFlags(FLAG_ACTIVITY_NO_USER_ACTION)
 
             startActivity(intent)
-            finish()
+//            finish()
         }
     }
 

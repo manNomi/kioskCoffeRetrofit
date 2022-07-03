@@ -55,16 +55,31 @@ class MyService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        cartClass = intent!!.getSerializableExtra("DATA") as CartClass
-        totalCal=cartClass.totalCal().toString()
-        Log.d("qwe",totalCal)
         Notification()
+
+        if(intent!!.getStringExtra("stop")=="stop"){
+            stopForegroundService()
+        }
         return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onBind(intent: Intent): IBinder {
 //        getExtra
+
+        if (intent.getSerializableExtra("DATA")as CartClass? !=null){
+            cartClass=intent.getSerializableExtra("DATA")as CartClass
+            totalCal=cartClass.totalCal().toString()
+            Log.d("cart",totalCal)
+        }
+
         return iBinder
+    }
+    fun bindServiceReturn(): CartClass {
+        return cartClass
+    }
+    private fun stopForegroundService() {
+        stopForeground(true)
+        stopSelf()
     }
 }
 
