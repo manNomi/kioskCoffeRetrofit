@@ -74,12 +74,24 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         cartClass= myService?.bindServiceReturn()
         intentService.putExtra("stop","stop")
         ContextCompat.startForegroundService(this, intentService)
+        serviceUnBind()
     }
 
     fun serviceBind()
     {
+//        Log.d("cart",cartClass.cartSteak[0].name)
+        Log.d("cart","main page hit")
+        intentService= Intent(this, MyService::class.java)
         intentService.putExtra("DATA",cartClass)
         bindService(intentService, connection, Context.BIND_AUTO_CREATE)
+    }
+
+    fun serviceUnBind()
+    {
+        if (isService) {
+            unbindService(connection)
+            isService = false
+        }
     }
 
     lateinit var cartClass: CartClass
@@ -92,14 +104,9 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
     ) {
         cartClass.addCart(receive_type, receive_name, receive_count, receive_pay)
     }
-
-
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_page_activity)
-
-
-
 
         var sequance = intent.getStringExtra("index")
         if (sequance != null) {
@@ -107,10 +114,7 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         } else {
             cartClass = CartClass()
         }
-
-        intentService= Intent(this, MyService::class.java)
-        serviceBind()
-            firstInitStaek()
+        firstInitStaek()
         initEvent()
     }
 
@@ -136,8 +140,6 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
             fragmentSteak.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.main_fragment, fragmentSteak)
                 .commit()
-
-
         }
 
         val pasta_btn = findViewById<Button>(R.id.pastaBtn)
@@ -157,15 +159,7 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
             val fragmentWine = WineFragment()
             val bundle = Bundle()
 
-//            bundle.putString("index", cart.size.toString())
-//            var text= mutableListOf<String>()
-//            for(index in 0 until cart.size) {
-//                text.add("cart" + "${index}")
-//                bundle.putStringArray(text[index], cart[index])
-//            }
-
             bundle.putSerializable("cart", cartClass)
-
             fragmentWine.arguments = bundle
             supportFragmentManager.beginTransaction().replace(R.id.main_fragment, fragmentWine)
                 .commit()
@@ -173,44 +167,14 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
 
         val cart_btn = findViewById<Button>(R.id.cartMoveBtn)
         cart_btn.setOnClickListener {
-//            repeatCart()
-//            if (myService!=null){
-//            cartClass = myService?.bindServiceReturn()
-//        }
+
             val intent = Intent(this, CartActivity::class.java)
 
             intent.putExtra("DATA", cartClass)
             intent.addFlags(FLAG_ACTIVITY_NO_USER_ACTION)
-
             startActivity(intent)
 //            finish()
         }
     }
-
-//    fun repeatCart(){
-//        for (i in 0 until cart.size){
-//        var sequence=cart.size
-//        for (index in 0 until sequence){
-//            for (index2 in 0 until sequence){
-//                if (cart[index][0]==cart[index2][0]){
-//                    if(cart[index][1].toInt()<cart[index2][1].toInt()) {
-//                        cart.removeAt(index)
-//                        sequence-=1
-//                        break
-//                    }
-//                    else if(cart[index][1].toInt()==cart[index2][1].toInt())
-//                    { }
-//                    else {
-//                        cart.removeAt(index2)
-//                        sequence-=1
-//                        break
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-
 }
 

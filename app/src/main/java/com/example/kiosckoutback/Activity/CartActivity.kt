@@ -53,8 +53,9 @@ class CartActivity : AppCompatActivity() {
 
 
 
-    override fun onUserLeaveHint() {
+    override fun onUserLeaveHint () {
         super.onUserLeaveHint ()
+//        intentService= Intent(this, MyService::class.java)
         serviceBind()
         ContextCompat.startForegroundService(this, intentService)
     }
@@ -64,14 +65,25 @@ class CartActivity : AppCompatActivity() {
         cartClass= myService?.bindServiceReturn()
         intentService.putExtra("stop","stop")
         ContextCompat.startForegroundService(this, intentService)
+        serviceUnBind()
     }
 
     fun serviceBind()
     {
+//        Log.d("cart",cartClass.cartSteak[0].name)
+        Log.d("cart","cart page hit")
+        intentService= Intent(this, MyService::class.java)
         intentService.putExtra("DATA",cartClass)
         bindService(intentService, connection, Context.BIND_AUTO_CREATE)
     }
 
+    fun serviceUnBind()
+    {
+        if (isService) {
+            unbindService(connection)
+            isService = false
+        }
+    }
 
 
 
@@ -79,13 +91,7 @@ class CartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.cart_page_activity)
         cartClass=intent.getSerializableExtra("DATA") as CartClass
-
-        intentService= Intent(this, MyService::class.java)
-
         Log.d("cart",cartClass.cartSteak.toString())
-
-        serviceBind()
-
         totalCal()
         initCart()
         initEvent()

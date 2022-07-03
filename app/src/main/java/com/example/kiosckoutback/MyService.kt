@@ -55,6 +55,8 @@ class MyService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d("cart","스타트 커맨드")
+
         Notification()
 
         if(intent!!.getStringExtra("stop")=="stop"){
@@ -65,9 +67,14 @@ class MyService : Service() {
 
     override fun onBind(intent: Intent): IBinder {
 //        getExtra
+        Log.d("cart","바인드 성공")
 
         if (intent.getSerializableExtra("DATA")as CartClass? !=null){
+
             cartClass=intent.getSerializableExtra("DATA")as CartClass
+
+            Log.d("cart",cartClass.toString())
+
             totalCal=cartClass.totalCal().toString()
             Log.d("cart",totalCal)
         }
