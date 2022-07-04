@@ -108,10 +108,12 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         initMenu()
 
 
-            setContentView(R.layout.main_page_activity)
+        setContentView(R.layout.main_page_activity)
         var sequance = intent.getStringExtra("index")
         if (sequance != null) {
             cartClass = intent.getSerializableExtra("cart") as CartClass
