@@ -89,6 +89,7 @@ class CartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.cart_page_activity)
         cartClass=intent.getSerializableExtra("DATA") as CartClass
         Log.d("cart",cartClass.cartSteak.toString())

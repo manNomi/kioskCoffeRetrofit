@@ -4,6 +4,7 @@
     package="com.example.kiosckoutback">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Outback">
+        android:theme="@style/Theme.Outback"
+        android:requestLegacyExternalStorage="true">
+
         <activity
             android:name=".Activity.StartActivity"
             android:exported="true">

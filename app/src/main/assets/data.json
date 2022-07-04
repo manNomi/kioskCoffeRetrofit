@@ -1,0 +1,58 @@
+{
+  "dataListSteak": [
+    {
+      "name": "갈릭 립아이 46,900",
+      "price": "46900",
+      "image": "steak1.png"
+    },
+    {
+      "name": "베이비 백립 39,900",
+      "price": "39900",
+      "image": "steak2.png"
+    },
+    {
+      "name": "기브미 파이브 38,900",
+      "price": "38900",
+      "image": "steak3.png"
+    }
+  ],
+  "dataListPasta": [
+    {
+      "name": "스테이크 투움바 - 29,900",
+      "price": "29900",
+      "image": "pasta1.png"
+    },
+    {
+      "name": "슈림프 아라비아따 - 25,900",
+      "price": "25900",
+      "image": "pasta2.png"
+    },
+    {
+      "name": "알리오 올리오 - 38,900",
+      "price": "38900",
+      "image": "pasta3.png"
+    },
+    {
+      "name": "스파이시 투움바 - 25,900",
+      "price": "25900",
+      "image": "pasta4.png"
+    }
+  ],
+  "dataListWine": [
+    {
+      "name": "비엔지 비스트로 피노 누아- 55,000",
+      "price": "55000",
+      "image": "wine1.png"
+    },
+    {
+      "name": "그래트 버지 클래식 컬렉션 쉬라즈 - 49,000",
+      "price": "49000",
+      "image": "wine2.png"
+    },
+    {
+      "name": "펜폴즈 쿠능가 힐 쉬라즈 카베르네 - 95,000",
+      "price": "95000",
+      "image": "wine3.png"
+    }
+  ]
+}

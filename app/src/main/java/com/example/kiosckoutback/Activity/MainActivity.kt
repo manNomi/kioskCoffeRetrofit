@@ -1,14 +1,15 @@
 package com.example.kiosckoutback.Activity
 
-import android.app.Service
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NO_USER_ACTION
 import android.content.ServiceConnection
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.Image
 import android.os.*
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,8 @@ import com.example.kiosckoutback.Fragment.SteakFragment
 import com.example.kiosckoutback.Fragment.WineFragment
 import com.example.kiosckoutback.MyService
 import com.example.kiosckoutback.R
+import com.example.kiosckoutback.jsonDB.DataBase
+import java.io.InputStream
 
 interface DataFromFragment{
     fun sendData(receive_type:String,receive_name:String,receive_count: String,receive_pay:String)
@@ -27,7 +30,9 @@ interface DataFromFragment{
 
 class MainActivity() : AppCompatActivity(),DataFromFragment {
 
-
+    lateinit var myService: MyService
+    lateinit var intentService:Intent
+    lateinit var cartClass: CartClass
 
     private var doubleBackToExit = false
     override fun onBackPressed() {
@@ -46,7 +51,6 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 
-    lateinit var myService: MyService
     var isService = false
     var connection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
@@ -60,7 +64,6 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
     }
 
 
-    lateinit var intentService:Intent
 
     override fun onUserLeaveHint () {
         super.onUserLeaveHint ()
@@ -94,8 +97,6 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         }
     }
 
-    lateinit var cartClass: CartClass
-
     override fun sendData(
         receive_type: String,
         receive_name: String,
@@ -106,8 +107,11 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
     }
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_page_activity)
 
+        initMenu()
+
+
+            setContentView(R.layout.main_page_activity)
         var sequance = intent.getStringExtra("index")
         if (sequance != null) {
             cartClass = intent.getSerializableExtra("cart") as CartClass
@@ -176,5 +180,45 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
 //            finish()
         }
     }
+
+    lateinit var db:DataBase
+    lateinit var pastaPicture:MutableList<Bitmap>
+    lateinit var steakPicture:MutableList<Bitmap>
+    lateinit var winePicture:MutableList<Bitmap>
+
+    fun initMenu(){
+        val jsonString = assets.open("data.json").reader().readText()
+        db=DataBase
+        db.initMenu(jsonString)
+        initPicture()
+    }
+
+    fun initPicture(){
+        pastaPicture=mutableListOf<Bitmap>()
+
+        for (index  in 0 until db.menuPasta.size) {
+            val image = assets.open(db.menuPasta[index].image)
+            var bitmap: Bitmap = BitmapFactory.decodeStream(image)
+            pastaPicture.add(bitmap)
+        }
+
+        steakPicture= mutableListOf<Bitmap>()
+        for (index  in 0 until db.menuSteak.size) {
+            val image = assets.open(db.menuSteak[index].image)
+            var bitmap: Bitmap = BitmapFactory.decodeStream(image)
+            steakPicture.add(bitmap)
+        }
+
+        winePicture= mutableListOf<Bitmap>()
+        for (index  in 0 until db.menuWine.size) {
+            val image = assets.open(db.menuWine[index].image)
+            var bitmap: Bitmap = BitmapFactory.decodeStream(image)
+            winePicture.add(bitmap)
+        }
+
+        db.initImage(pastaPicture,steakPicture,winePicture)
+
+    }
+
 }
 

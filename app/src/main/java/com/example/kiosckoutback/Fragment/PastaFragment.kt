@@ -1,7 +1,11 @@
 package com.example.kiosckoutback.Fragment
 
-import android.media.Image
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.ImageReader
 import android.os.Bundle
+import android.os.Environment
+import android.os.ParcelFileDescriptor.open
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,28 +14,48 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.kiosckoutback.Activity.DataFromFragment
-import com.example.kiosckoutback.DataBase
+import com.example.kiosckoutback.jsonDB.DataBase
 import com.example.kiosckoutback.R
 import com.example.kiosckoutback.dialogClass
+import kotlinx.android.synthetic.main.main_page_activity.*
+import java.io.*
+import android.media.Image as Image
 
 class PastaFragment : Fragment() {
 
     var total=arrayOf(0,0,0,0)
-    val db= DataBase()
-    val dataList=db.pastaMenuList
+    val db= DataBase
+
+
+    lateinit var dataList:ArrayList<DataBase.menu>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragment = inflater.inflate(R.layout.main_page_fragment_steak, container, false)
+        dataList=db.menuPasta
+
 
         val linearLayout = fragment.findViewById<LinearLayout>(R.id.steakLinear)
 
-        for (index in 0 until dataList.size) {
+        for (index in 0 until (dataList ).size) {
             val customLinear = layoutInflater.inflate(R.layout.custom_cart_btn, linearLayout, false)
             customLinear.findViewById<TextView>(R.id.foodText).text = dataList[index].name
-//            customLinear.findViewById<ImageView>(R.id.foodImage).setImageResource(pastaList[index])
             val image =customLinear.findViewById<ImageView>(R.id.foodImage)
+
+
+            val path2="C:\\Users\\hanmw\\AndroidStudioProjects\\KiosckOutback\\app\\src\\main\\res\\mipmap-mdpi"
+
+//            val inputStream = FileInputStream(path2)
+//            val result: Int = inputStream.read()
+
+//            val outputStream = FileOutputStream("image/")
+//            outputStream.close()
+//            outputStream.close()
+
+//            val path="image/"+ dataList[index].image
+
+            Log.d("qwe",db.pastaImage[index].toString())
             Glide.with(fragment)
-                .load(dataList[index].image)
+                .load(db.pastaImage[index])
                 .into(image)
             customLinear.findViewById<LinearLayout>(R.id.steakBtnLinear).setOnClickListener{initEvent(index)}
             linearLayout.addView(customLinear)
@@ -50,7 +74,6 @@ class PastaFragment : Fragment() {
 
     fun insertEvent(number: Int)
     {
-        total[number]+=1
         val text=dataList[number].name+" 추가되었습니다"
         Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
         val dataInterface = context as DataFromFragment
@@ -65,11 +88,43 @@ class PastaFragment : Fragment() {
         newFragment.show(fragmentManager, "dialog")
     }
 
-    fun glideImage(view:View,image:Int){
-        Glide
-            .with(view)
-            .load(image)
-            .placeholder(R.drawable.border_blind)
-            .into(view.findViewById<ImageView>(R.id.foodImage))
+//    fun SaveBitmapToFileCache(strFilePath:String): File {
+//
+//        var bitmap = BitmapFactory.decodeFile(strFilePath)
+//
+//        var fileCacheItem = File(strFilePath)
+//        var out: OutputStream?= null
+//
+//        try {
+//
+//            fileCacheItem.createNewFile()
+//            out = FileOutputStream(fileCacheItem)
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+//
+//        } catch (e:Exception) {
+//            e.printStackTrace()
+//        } finally {
+//            try {
+//                out?.let {
+//                    out.close();
+//                }
+//            } catch (e:IOException) {
+//                e.printStackTrace()
+//            }
+//
+//        }
+//        return fileCacheItem
+//    }
+    fun pathToBitmap(path: String?): Bitmap? {
+        return try {
+            val f = File(path)
+            val options = BitmapFactory.Options()
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888
+            BitmapFactory.decodeStream(FileInputStream(f), null, options)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
+
 }

@@ -19,7 +19,6 @@
         android:id="@+id/foodImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="@mipmap/steak1"
         android:layout_margin="5dp"
         android:layout_weight="0.2"
         android:background="@color/mw_grey"/>

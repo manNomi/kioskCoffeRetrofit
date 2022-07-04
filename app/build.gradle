@@ -32,6 +32,13 @@ android {
     buildFeatures {
         dataBinding = true
     }
+    sourceSets {
+        main {
+            assets {
+                srcDirs 'src\\main\\assets'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -49,5 +56,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
 //    gson 제이슨을 객체로 인식하고 쓸수 있도록
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation("commons-io:commons-io:2.8.0")
 
 }

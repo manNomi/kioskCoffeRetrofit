@@ -21,18 +21,6 @@ class dialogClass() : DialogFragment(){
         val builder = AlertDialog.Builder(it)
 
         val view=inflater.inflate(R.layout.dialog_insert,null)
-//
-//        val insertBtn=view.findViewById<Button>(R.id.insert_btn)
-//        val backBtn=view.findViewById<Button>(R.id.back_btn)
-
-//        Log.d("test","버튼생김")
-//        insertBtn.setOnClickListener{
-//            Log.d("test","버튼눌림")
-//        }
-//
-//        backBtn.setOnClickListener{
-//            dismiss()
-//        }
 
         builder.setView(inflater.inflate(R.layout.dialog_insert, null))
             builder.apply {
