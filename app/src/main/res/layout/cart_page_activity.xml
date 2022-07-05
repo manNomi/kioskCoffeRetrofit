@@ -111,7 +111,7 @@
             />
 
 
-        <Button
+        <TextView
             android:id="@+id/payBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.1" />
 
-        <Button
+        <TextView
             android:id="@+id/backBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

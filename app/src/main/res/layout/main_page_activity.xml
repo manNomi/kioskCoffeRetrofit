@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/Theme.Outback"
     android:background="@color/outback_red"
     >
 
@@ -16,7 +15,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="40dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCustom"
         />
 
     <ScrollView
@@ -26,7 +25,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="40dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCustom"
         android:backgroundTint="#00ffffff"
         >
         <FrameLayout
@@ -78,50 +77,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayoutCustom"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         android:background="@color/outback_red"
         >
-        <Button
-            android:id="@+id/steakBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/white"
-            android:text="스테이크"
-            android:textSize="23dp"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="parent"
-            android:padding="10dp"/>
-        <Button
-            android:id="@+id/pastaBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/white"
-            android:text="파스타"
-            android:textColor="@color/black"
-            android:textSize="23dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="parent"
-            android:padding="10dp"/>
 
-        <Button
-            android:id="@+id/wineBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/white"
-            android:text="와인"
-            android:textColor="@color/black"
-            android:textSize="23dp"
-            android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 
     <LinearLayout
@@ -139,7 +102,20 @@
             android:background="@color/outback_red"
             />
 
-        <Button
+        <TextView
+            android:id="@+id/historyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:text="주문기록보기"
+            android:textSize="23dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/black"
+            />
+        <TextView
             android:id="@+id/cartMoveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

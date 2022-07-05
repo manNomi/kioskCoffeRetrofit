@@ -12,31 +12,33 @@ import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.dialog_insert.*
 
-class dialogClass() : DialogFragment(){
+class dialog() : DialogFragment(){
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-    return activity?.let {
+        return activity?.let {
+
+            val inflater = requireActivity().layoutInflater
+            val bundle = arguments
+            val message = bundle!!.getString("text")
+
+            val builder = AlertDialog.Builder(it)
+
+            val view=inflater.inflate(R.layout.dialog,null)
 
 
-
-        val inflater = requireActivity().layoutInflater
-
-
-        val builder = AlertDialog.Builder(it)
-
-        val view=inflater.inflate(R.layout.dialog_insert,null)
-
-        builder.setView(inflater.inflate(R.layout.dialog_insert, null))
+            builder.setView(inflater.inflate(R.layout.dialog, null))
             builder.apply {
+                setTitle("주문기록")
+                setMessage(message)
                 setNegativeButton("확인",
                     DialogInterface.OnClickListener { _, _ ->
                         Log.d("qwe","123")
                     }
                 )
             }
-        builder.create()
-    } ?: throw IllegalStateException("Activity cannot be null")
-}
+            builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
+    }
 
 }
