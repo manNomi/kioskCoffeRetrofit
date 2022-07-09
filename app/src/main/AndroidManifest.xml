@@ -24,8 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Activity.LoginActivity"/>
-        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.MainActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".Activity.CartActivity" />
         <activity android:name=".Activity.ReceiptActivity" />
         <service

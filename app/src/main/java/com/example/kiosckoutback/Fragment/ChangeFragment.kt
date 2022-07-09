@@ -1,5 +1,6 @@
 package com.example.kiosckoutback.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import com.example.kiosckoutback.DataBase
 import com.example.kiosckoutback.R
 import com.example.kiosckoutback.dialogClass
 
-class CoffeFragment : Fragment() {
+class ChangeFragment : Fragment() {
     var total=arrayOf(0,0,0,0)
     lateinit var dataList:MutableList<MainActivity.MenuListData>
     val db= DataBase
@@ -25,8 +26,17 @@ class CoffeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val fragment = inflater.inflate(R.layout.main_page_fragment_steak, container, false)
-        dataList=db.menuCoffe
+
+        val type=arguments?.getString("type")!!.toInt()
+
+
+        Log.d("메뉴 인덱스",type.toString())
+        Log.d("메뉴",db.menuDb[0].toString())
+
+        dataList = db.menuDb[type]
+
         val linearLayout = fragment.findViewById<LinearLayout>(R.id.steakLinear)
+        linearLayout.removeAllViews()
         for (index in 0 until dataList.size) {
             val customLinear = layoutInflater.inflate(R.layout.custom_cart_btn, linearLayout, false)
             customLinear.findViewById<TextView>(R.id.foodText).text = dataList[index].menu_name+"  "+dataList[index].menu_price.toString()
@@ -38,8 +48,8 @@ class CoffeFragment : Fragment() {
             linearLayout.addView(customLinear)
         }
         return fragment
-
     }
+
     fun initEvent( number: Int){
         showDialog()
         if (newFragment.isCancelable){

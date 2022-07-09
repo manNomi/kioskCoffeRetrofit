@@ -23,8 +23,20 @@ import kotlin.collections.HashMap
 
 
 class ReceiptActivity : AppCompatActivity() {
-    var cart= mutableListOf<Array<String>>()
     private var doubleBackToExit = false
+    lateinit var cartClass: CartClass
+    var id =""
+    lateinit var retrofit: Retrofit
+    lateinit var retrofitHttp: RetrofitService
+    val reciptList= mutableListOf<String>()
+
+
+    data class reciptData(
+        val name:String,
+        val count:Int,
+        val sum_price:Int
+    )
+
     override fun onBackPressed() {
         if (doubleBackToExit) {
             finishAffinity()
@@ -41,15 +53,10 @@ class ReceiptActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 
-    lateinit var cartClass: CartClass
-
-    var id =""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.receipt_page_activity)
         cartClass=intent.getSerializableExtra("cart")as CartClass
-
         id=intent.getStringExtra("id_value")!!
         initRecipt()
         initBtn()
@@ -62,7 +69,6 @@ class ReceiptActivity : AppCompatActivity() {
         for (index in 0 until  cartClass.cartCoffe.size){
             text+="${cartClass.cartCoffe[index].name} * ${cartClass.cartCoffe[index].count} \n"
         }
-
         findViewById<TextView>(R.id.reciptMenu).text = text
         findViewById<TextView>(R.id.reciptTotal).text="총합 : ${cartClass.totalCal()}"
     }
@@ -74,14 +80,6 @@ class ReceiptActivity : AppCompatActivity() {
             finish()
         }
     }
-
-    data class reciptData(
-        val name:String,
-        val count:Int,
-        val sum_price:Int
-    )
-    val reciptList= mutableListOf<String>()
-
     fun recordHistory(){
         val gson= GsonBuilder()
             .setPrettyPrinting()
@@ -91,28 +89,11 @@ class ReceiptActivity : AppCompatActivity() {
             val myAccountData=gson.toJson(recipt)
             reciptList.add(myAccountData)
         }
-
-
-
         var id=id
-//        var orderList=""
-//        orderList+="["
-//        for (index in 0 until cartClass.cartCoffe.size) {
-//            orderList += "{ 'name': ${cartClass.cartCoffe[index].name} ,'count:' ${cartClass.cartCoffe[index].count.toInt()},'sum_price': ${cartClass.cartCoffe[index].price.toInt() * cartClass.cartCoffe[index].count.toInt()} }"
-//            if (index != cartClass.cartCoffe.size - 1) {
-//                orderList += ","
-//            }
-//        }
-//            orderList += "]"
-//
-//        Log.d("result",orderList)
         initEvent(id,reciptList,cartClass.totalCal())
 
     }
 
-    lateinit var retrofit: Retrofit
-
-    lateinit var retrofitHttp: RetrofitService
 
     fun initRetrofit() {
         retrofit= RetrofitClient.initRetrofit()
@@ -131,19 +112,12 @@ class ReceiptActivity : AppCompatActivity() {
         enqueue(object: Callback<InputHistory> {
             //                통신 실패함수
             override fun onFailure(call: Call<InputHistory>, t: Throwable) {
-                Log.d("result", "Request fail : ${t}")
-//                    통신 연결과 실패했다면 실패한 이유도 나옴
             }
-            //                  통신성공함수
             override fun onResponse(
                 call: Call<InputHistory>,
                 response: Response<InputHistory>
             ) {
-                Log.d("result", "Request Success }")
                 if (response.body()!!.success) {
-
-                } else {
-                    Log.d("result", response.body()!!.message)
 
                 }
             }

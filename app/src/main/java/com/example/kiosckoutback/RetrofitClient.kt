@@ -14,26 +14,15 @@ import java.util.*
 import kotlin.collections.HashMap
 
 object RetrofitClient {
-
     var instance:Retrofit?=null
-//-> 클래스 대신 오브젝트를 생성 처음부터 객체로 생긴것임
-//    복제가안됨
-//    setting basic retrofit
-//    객체가 아니라서 class 가 아니므로 한번 연결하면 아무데서나 가져다 써도 같은 값임
     fun initRetrofit():Retrofit{
-
-//    url안에 주소 적기 도메인도 가능 naver.com 등 : 포트번호 . addconvert->(gson) -> 제이슨을쓰겠다
-
     if (instance==null){
-//        내로윙 -> 오브젝트 이므로 또 연결되려하면 안되므로 처음에만 인스턴스 생성 다음연결부터는 원래 instance 리턴
         instance=Retrofit.Builder()
             .baseUrl("http://3.39.66.6:3000")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
         return instance!!
-
     }
 }
 
@@ -75,9 +64,6 @@ data class GetHistroy(
     var data: JsonArray
 )
 
-
-
-// 어떤 식으로 데이터를 주고 받을지 설정하는 interface ( cursor 의 역할 )
 interface RetrofitService{
     @GET("/account/login")
     fun getAccountLogin(
@@ -107,18 +93,14 @@ interface RetrofitService{
         @Query("id") id:String,
     ):Call<GetHistroy>
 
-
-//    retrofit2 import
     @POST("/account")
     fun postAccount(
-//    하나밖에 못해서 hash를 사용한
     @Body body:HashMap<String,String>
     ):Call<AccountData>
 
 
     @POST("/order")
     fun postOrder(
-//    하나밖에 못해서 hash를 사용한
         @Body body:HashMap<String,Any>
     ):Call<InputHistory>
 }

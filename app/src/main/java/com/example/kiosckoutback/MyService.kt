@@ -27,13 +27,11 @@ class MyService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val intentMainLanding = Intent(this, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(this, 0, intentMainLanding, 0)
-
             if (notiManager == null) {
                 notiManager =
                     this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             }
             val builder = NotificationCompat.Builder(this, SC)
-
             builder.setContentTitle(
                 StringBuilder(resources.getString(R.string.app_name)+" 총 금액은 : ${totalCal}")
                 )
@@ -44,7 +42,6 @@ class MyService : Service() {
                 .setOnlyAlertOnce(true)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
-
             noti = builder.build()
             startForeground(10, noti)
         }
@@ -55,10 +52,7 @@ class MyService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("cart","스타트 커맨드")
-
         Notification()
-
         if(intent!!.getStringExtra("stop")=="stop"){
             stopForegroundService()
         }
@@ -66,19 +60,10 @@ class MyService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder {
-//        getExtra
-        Log.d("cart","바인드 성공")
-
         if (intent.getSerializableExtra("DATA")as CartClass? !=null){
-
             cartClass=intent.getSerializableExtra("DATA")as CartClass
-
-            Log.d("cart",cartClass.toString())
-
             totalCal=cartClass.totalCal().toString()
-            Log.d("cart",totalCal)
         }
-
         return iBinder
     }
     fun bindServiceReturn(): CartClass {

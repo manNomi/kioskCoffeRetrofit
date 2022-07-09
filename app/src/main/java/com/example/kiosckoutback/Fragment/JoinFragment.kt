@@ -21,19 +21,20 @@ import retrofit2.Retrofit
 
 class JoinFragment: Fragment() {
 
+    lateinit var retrofit: Retrofit
+    lateinit var retrofitHttp: RetrofitService
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
         val fragment=inflater.inflate(R.layout.join_page_fragment_join,container,false)
         initRetrofit()
         initEvent(fragment)
         return fragment
     }
-
     fun initEvent(fragment:View){
-        //            로그인버튼
         val joinBtn = fragment.findViewById<TextView>(R.id.joinPage_btn)
         joinBtn.setOnClickListener {
             loginEvent(fragment)
-5412        }
+        }
         val backBtn = fragment.findViewById<TextView>(R.id.back_btn)
         backBtn.setOnClickListener {
             Log.d("qwe","백버튼")
@@ -41,43 +42,29 @@ class JoinFragment: Fragment() {
             dataInterface.sendData(true,"to login")
         }
     }
-    lateinit var retrofit: Retrofit
-
-    lateinit var retrofitHttp: RetrofitService
 
     fun initRetrofit() {
         retrofit= RetrofitClient.initRetrofit()
         retrofitHttp=retrofit!!.create(RetrofitService::class.java)
     }
 
-
     fun loginEvent(fragment:View){
         retrofitHttp.getAccountLoginCheck(fragment.findViewById<EditText>(R.id.join_id_text).text.toString()).
         enqueue(object: Callback<AccountDataCheck> {
-            //                통신 실패함수
             override fun onFailure(call: Call<AccountDataCheck>, t: Throwable) {
-                Log.d("result","Request fail : ${t}")
-//                    통신 연결과 실패했다면 실패한 이유도 나옴
             }
-            //                  통신성공함수
             override fun onResponse(call: Call<AccountDataCheck>, response: Response<AccountDataCheck>) {
-                Log.d("result","Request Success }")
                 if (response.body()!!.success){
                     joinBtnEvent(fragment)
                 }
                 else{
-                    Log.d("result",response.body()!!.message)
                     Toast.makeText(context, "회원가입 실패", Toast.LENGTH_SHORT).show()
-
                 }
             }
-        }
-        )
-
+        })
     }
 
     fun joinBtnEvent(fragment:View){
-
         var requestData:HashMap<String,String> = HashMap()
         requestData["id"]=fragment.findViewById<EditText>(R.id.join_id_text).text.toString()
         requestData["pw"]=fragment.findViewById<EditText>(R.id.join_pw_text).text.toString()

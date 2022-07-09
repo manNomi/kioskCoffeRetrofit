@@ -13,20 +13,13 @@ import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.dialog_insert.*
 
 class dialog() : DialogFragment(){
-
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
-
             val inflater = requireActivity().layoutInflater
             val bundle = arguments
             val message = bundle!!.getString("text")
-
             val builder = AlertDialog.Builder(it)
-
             val view=inflater.inflate(R.layout.dialog,null)
-
-
             builder.setView(inflater.inflate(R.layout.dialog, null))
             builder.apply {
                 setTitle("주문기록")

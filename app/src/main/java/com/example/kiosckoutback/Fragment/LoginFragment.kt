@@ -25,21 +25,22 @@ import retrofit2.Retrofit
 
 class LoginFragment:Fragment() {
 
+    lateinit var retrofit: Retrofit
+
+    lateinit var retrofitHttp: RetrofitService
+    var idValue=""
+    var pwValue=""
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?{
         val fragment=inflater.inflate(R.layout.login_page_fragment_login,container,false)
-
         initRetrofit()
-
         initEvent(fragment)
-
         return fragment
     }
 
     fun initEvent(fragment:View){
-        //            로그인버튼
         val loginBtn = fragment.findViewById<TextView>(R.id.login_btn)
         loginBtn.setOnClickListener {
-            Log.d("qwe","로그인버튼")
             loginEvent(fragment)
 
         }
@@ -49,9 +50,6 @@ class LoginFragment:Fragment() {
             dataInterface.sendData(true,"to join")
         }
     }
-    lateinit var retrofit: Retrofit
-
-    lateinit var retrofitHttp: RetrofitService
 
 
     fun initRetrofit() {
@@ -59,41 +57,24 @@ class LoginFragment:Fragment() {
         retrofitHttp = retrofit!!.create(RetrofitService::class.java)
     }
 
-    var idValue=""
-    var pwValue=""
-
-
     fun loginEvent(fragment:View){
         idValue=fragment.findViewById<EditText>(R.id.id_text)!!.text.toString()
         pwValue=fragment.findViewById<TextInputEditText>(R.id.pw_text)!!.text.toString()
-
         retrofitHttp.getAccountLogin(idValue,pwValue).
         enqueue(object: Callback<AccountLoginData> {
-            //                통신 실패함수
             override fun onFailure(call: Call<AccountLoginData>, t: Throwable) {
-                Log.d("result","Request fail : ${t}")
-//                    통신 연결과 실패했다면 실패한 이유도 나옴
             }
-            //                  통신성공함수
             override fun onResponse(call: Call<AccountLoginData>, response: Response<AccountLoginData>) {
-                Log.d("result","Request Success }")
                 if (response.body()!!.success){
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("id_value",idValue)
                     startActivity(intent)
                     Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show()
-
                 }
                 else{
-                    Log.d("result",response.body()!!.message)
                     Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
-
                 }
             }
         }
-    )
-
-    }
-
-
+    ) }
 }

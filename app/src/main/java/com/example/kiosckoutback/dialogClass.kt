@@ -13,20 +13,11 @@ import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.dialog_insert.*
 
 class dialogClass() : DialogFragment(){
-
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     return activity?.let {
-
-
-
         val inflater = requireActivity().layoutInflater
-
-
         val builder = AlertDialog.Builder(it)
-
         val view=inflater.inflate(R.layout.dialog_insert,null)
-
         builder.setView(inflater.inflate(R.layout.dialog_insert, null))
             builder.apply {
                 setNegativeButton("확인",

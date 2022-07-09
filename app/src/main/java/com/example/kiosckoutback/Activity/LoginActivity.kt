@@ -10,15 +10,15 @@ import com.example.kiosckoutback.Fragment.JoinFragment
 import com.example.kiosckoutback.Fragment.LoginFragment
 import com.example.kiosckoutback.R
 
-
-
+//프라그먼트로 부터 데이터 받는 것 정의
 interface LoginFromFragment{
     fun sendData(change:Boolean,move:String)
 }
 
 class LoginActivity: AppCompatActivity(),LoginFromFragment {
-
     private var doubleBackToExit = false
+
+//    뒤로가기 재설정
     override fun onBackPressed() {
         if (doubleBackToExit) {
             finishAffinity()
@@ -35,14 +35,14 @@ class LoginActivity: AppCompatActivity(),LoginFromFragment {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 
-
-
+//    시작함수
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_page)
         loginChange()
     }
 
+//    조인 프라그먼트로 교체 함수
     fun joinChange(){
         val fragmentJoin = JoinFragment()
         val bundle = Bundle()
@@ -51,6 +51,7 @@ class LoginActivity: AppCompatActivity(),LoginFromFragment {
             .commit()
     }
 
+//    로그인 프라그먼트로 교체 함수
     fun loginChange(){
         val fragmentLogin = LoginFragment()
         val bundle = Bundle()
@@ -59,6 +60,7 @@ class LoginActivity: AppCompatActivity(),LoginFromFragment {
             .commit()
     }
 
+//    프라그먼트로 부터 데이터 받는 곳
     override fun sendData(change: Boolean, move: String) {
         if(change==true){
             if (move=="to join")
@@ -67,8 +69,5 @@ class LoginActivity: AppCompatActivity(),LoginFromFragment {
                 loginChange()
             }
         }
-
     }
-
-
 }

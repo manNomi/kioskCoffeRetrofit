@@ -1,19 +1,22 @@
-package com.example.kiosckoutback.jsonDB
-import android.graphics.Bitmap
-import android.util.Log
+package com.example.kiosckoutback
 import com.example.kiosckoutback.Activity.MainActivity
-import com.example.kiosckoutback.CategoryData
-import com.google.gson.Gson
-import java.io.InputStream
-import java.io.InputStreamReader
 
 
 object DataBase {
     var menuCoffe= mutableListOf<MainActivity.MenuListData>()
     var menuBeverage=mutableListOf<MainActivity.MenuListData>()
+
+    var serviceBool=false
+
+    var menuDb= mutableListOf<MutableList<MainActivity.MenuListData>>()
     fun initMenus(coffe: MutableList<MainActivity.MenuListData>, beverage: MutableList<MainActivity.MenuListData>){
-        menuCoffe=coffe
-        menuBeverage=beverage
+        menuCoffe =coffe
+        menuBeverage =beverage
+
+    }
+
+    fun initMenuDB(menu:MutableList<MainActivity.MenuListData>){
+        menuDb.add(menu)
     }
 }
 
