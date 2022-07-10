@@ -63,14 +63,16 @@ class CartActivity : AppCompatActivity() {
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
         serviceBind()
+        intentService.putExtra("test","cart")
         ContextCompat.startForegroundService(this, intentService)
     }
 
 //    < 재시작 될때 서비스 실행중이면 끄는 함수 >
     override fun onResume() {
         super.onResume()
-        if (isService==true) {
+        if (isService) {
             cartClass = myService?.bindServiceReturn()
+            intentService.putExtra("test","cart")
             intentService.putExtra("stop", "stop")
             ContextCompat.startForegroundService(this, intentService)
             serviceUnBind()

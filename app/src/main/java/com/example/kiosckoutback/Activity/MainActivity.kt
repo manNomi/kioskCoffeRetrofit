@@ -11,8 +11,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.kiosckoutback.*
-import com.example.kiosckoutback.Fragment.BeverageFragment
-import com.example.kiosckoutback.Fragment.CoffeFragment
 import com.example.kiosckoutback.DataBase
 import com.example.kiosckoutback.DataBase.initMenuDB
 import com.example.kiosckoutback.Fragment.ChangeFragment
@@ -89,11 +87,9 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
             val binder = service as MyService.MyBinder
             myService = binder.getService()
             isService = true
-            db.serviceBool=true
         }
         override fun onServiceDisconnected(className: ComponentName?) {
             isService = false
-            db.serviceBool=false
 
         }
     }
@@ -102,14 +98,16 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
     override fun onUserLeaveHint () {
         super.onUserLeaveHint ()
         serviceBind()
+        intentService.putExtra("test","main")
         ContextCompat.startForegroundService(this, intentService)
     }
 
 //    재시작 - 서비스가 연결되있을경우 서비스 해제
     override fun onResume() {
         super.onResume()
-        if (db.serviceBool==true) {
+        if (isService) {
             cartClass = myService?.bindServiceReturn()
+            intentService.putExtra("test","main")
             intentService.putExtra("stop", "stop")
             ContextCompat.startForegroundService(this, intentService)
             serviceUnBind()
@@ -121,6 +119,7 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
     {
         intentService= Intent(this, MyService::class.java)
         intentService.putExtra("DATA",cartClass)
+
         bindService(intentService, connection, Context.BIND_AUTO_CREATE)
     }
 
