@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.kiosckoutback.Activity.DataFromFragment
 import com.example.kiosckoutback.Activity.MainActivity
-import com.example.kiosckoutback.DataBase
+import com.example.kiosckoutback.dataBase.DataBase
 import com.example.kiosckoutback.R
-import com.example.kiosckoutback.dialogClass
+import com.example.kiosckoutback.dialog.dialogClass
 
 class ChangeFragment : Fragment() {
     var total=arrayOf(0,0,0,0)

@@ -11,9 +11,11 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.kiosckoutback.*
-import com.example.kiosckoutback.DataBase
-import com.example.kiosckoutback.DataBase.initMenuDB
+import com.example.kiosckoutback.dataBase.DataBase
+import com.example.kiosckoutback.dataBase.DataBase.initMenuDB
 import com.example.kiosckoutback.Fragment.ChangeFragment
+import com.example.kiosckoutback.dataBase.CartClass
+import com.example.kiosckoutback.dialog.dialog
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -80,7 +82,6 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 
-
 //    서비스
     var connection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
@@ -98,16 +99,19 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
     override fun onUserLeaveHint () {
         super.onUserLeaveHint ()
         serviceBind()
-        intentService.putExtra("test","main")
+        intentService.putExtra("type","main")
         ContextCompat.startForegroundService(this, intentService)
+        Log.d("result","포그라운드 시작")
     }
 
 //    재시작 - 서비스가 연결되있을경우 서비스 해제
     override fun onResume() {
         super.onResume()
         if (isService) {
-            cartClass = myService?.bindServiceReturn()
-            intentService.putExtra("test","main")
+            var getData= myService?.bindServiceReturn()
+            cartClass = getData[0] as CartClass
+            id = getData[1].toString()
+            intentService.putExtra("type","main")
             intentService.putExtra("stop", "stop")
             ContextCompat.startForegroundService(this, intentService)
             serviceUnBind()
@@ -119,7 +123,7 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
     {
         intentService= Intent(this, MyService::class.java)
         intentService.putExtra("DATA",cartClass)
-
+        intentService.putExtra("id", id)
         bindService(intentService, connection, Context.BIND_AUTO_CREATE)
     }
 
@@ -142,13 +146,29 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         cartClass.addCart(receive_type, receive_name, receive_count, receive_pay)
     }
 
+//    override fun onStart() {
+//        super.onStart()
+//        Log.d("result",cartCheck.toString())
+//        if (cartCheck==false){
+//            Log.d("result","cart")
+//            cartClass.cartCoffe.clear()
+//        }
+//    }
+
+    var cartCheck=true
 //    시작함수
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db= DataBase
-        if (intent.getStringExtra("id_value")!=null){
-        id=intent.getStringExtra("id_value")!!
-        }
+        Log.d("result","start")
+        Log.d("result",cartCheck.toString())
+        cartCheck=false
+
+
+    if (intent.getStringExtra("id_value")!=null){
+            id=intent.getStringExtra("id_value")!!
+    }
+
         initRetrofit()
         categoryDataGet()
 
@@ -174,6 +194,7 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
             .commit()
     }
 
+//    버튼 등록 함수
     fun initEvent() {
         val cart_btn = findViewById<TextView>(R.id.cartMoveBtn)
         cart_btn.setOnClickListener {
@@ -188,6 +209,7 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
         initRecipt()
         }
     }
+
 
     fun initRetrofit() {
         retrofit= RetrofitClient.initRetrofit()

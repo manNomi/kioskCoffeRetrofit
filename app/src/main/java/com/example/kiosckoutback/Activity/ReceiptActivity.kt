@@ -5,20 +5,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kiosckoutback.*
+import com.example.kiosckoutback.dataBase.CartClass
 import com.google.gson.GsonBuilder
-import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import java.util.*
 import kotlin.collections.HashMap
 
 
@@ -75,7 +71,9 @@ class ReceiptActivity : AppCompatActivity() {
     fun initBtn(){
         findViewById<TextView>(R.id.backBtn).setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
+            Log.d("result","back btn")
             intent.putExtra("id_value",id)
+            intent.putExtra("cart","null")
             startActivity(intent)
             finish()
         }

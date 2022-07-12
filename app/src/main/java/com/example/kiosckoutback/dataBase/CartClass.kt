@@ -1,4 +1,4 @@
-package com.example.kiosckoutback
+package com.example.kiosckoutback.dataBase
 
 import java.io.Serializable
 
@@ -13,7 +13,7 @@ class CartClass(
         ): Serializable
 
     fun addCart(type:String,name: String,count:String,price:String){
-        var cart=List(name, count, price)
+        var cart= List(name, count, price)
         var sequence=0
         for (index in 0 until cartCoffe.size) {
             if (cartCoffe[index].name==cart.name){

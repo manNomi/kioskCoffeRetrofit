@@ -1,16 +1,12 @@
-package com.example.kiosckoutback
+package com.example.kiosckoutback.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.dialog_insert.*
+import com.example.kiosckoutback.R
 
 class dialog() : DialogFragment(){
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

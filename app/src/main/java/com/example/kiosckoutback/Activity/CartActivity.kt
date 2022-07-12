@@ -5,16 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.*
-import android.util.Log
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.kiosckoutback.CartClass
-import com.example.kiosckoutback.DataBase
+import com.example.kiosckoutback.dataBase.CartClass
 import com.example.kiosckoutback.MyService
 import com.example.kiosckoutback.R
-import org.w3c.dom.Text
 
 class CartActivity : AppCompatActivity() {
 
@@ -63,16 +59,21 @@ class CartActivity : AppCompatActivity() {
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
         serviceBind()
-        intentService.putExtra("test","cart")
-        ContextCompat.startForegroundService(this, intentService)
+        intentService.putExtra("type","cart")
+        intentService.putExtra("id", id)
+
+
+    ContextCompat.startForegroundService(this, intentService)
     }
 
 //    < 재시작 될때 서비스 실행중이면 끄는 함수 >
     override fun onResume() {
         super.onResume()
         if (isService) {
-            cartClass = myService?.bindServiceReturn()
-            intentService.putExtra("test","cart")
+            var getData= myService?.bindServiceReturn()
+            cartClass = getData[0] as CartClass
+            id = getData[1].toString()
+            intentService.putExtra("type","cart")
             intentService.putExtra("stop", "stop")
             ContextCompat.startForegroundService(this, intentService)
             serviceUnBind()
@@ -83,6 +84,7 @@ class CartActivity : AppCompatActivity() {
     fun serviceBind() {
         intentService = Intent(this, MyService::class.java)
         intentService.putExtra("DATA", cartClass)
+        intentService.putExtra("id", id)
         bindService(intentService, connection, Context.BIND_AUTO_CREATE)
     }
 
