@@ -27,13 +27,9 @@
 
         <activity android:name=".Activity.LoginActivity"/>
         <activity android:name=".Activity.MainActivity"
-            android:launchMode="singleTask"/>
-<!--            android:launchMode="singleTop"-->
-            />
+            android:launchMode="singleTop" />
         <activity android:name=".Activity.CartActivity"
-            android:launchMode="singleTask"/>
-<!--            android:launchMode="singleTop"-->
-
+            android:launchMode="singleTop"/>
         <activity android:name=".Activity.ReceiptActivity" />
         <service
             android:name=".MyService"

@@ -101,7 +101,9 @@ class CartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.cart_page_activity)
+    if(intent.getSerializableExtra("DATA") as CartClass!=null) {
         cartClass = intent.getSerializableExtra("DATA") as CartClass
+    }
         id=intent.getStringExtra("id_value")!!
         totalCal()
         initCart()

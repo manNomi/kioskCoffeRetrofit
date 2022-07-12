@@ -301,13 +301,18 @@ class MainActivity() : AppCompatActivity(),DataFromFragment {
                         menuHistory.add(menu)
                     }
                     var text=""
-                    text+="id: ${menuHistory[0].id}\n"
-                    for (index in 0 until  menuHistory.size){
-                        text+=(index+1).toString()+"번째 주문\n"
-                        for (index2 in 0 until  menuHistory[index].order_list.size) {
-                            text += "메뉴 ${menuHistory[index].order_list[index2].name} 개수 ${menuHistory[index].order_list[index2].count} 가격 ${menuHistory[index].order_list[index2].sum_price}\n"
+                    if (menuHistory.size!=0) {
+                        text += "id: ${menuHistory[0].id}\n\n"
+                        for (index in 0 until menuHistory.size) {
+                            text += (index + 1).toString() + "번째 주문\n"
+                            for (index2 in 0 until menuHistory[index].order_list.size) {
+                                text += "메뉴 : ${menuHistory[index].order_list[index2].name} 개수 : ${menuHistory[index].order_list[index2].count} 가격 : ${menuHistory[index].order_list[index2].sum_price}\n"
+                            }
+                            text += "total: ${menuHistory[index].total_price} \n\n"
                         }
-                        text+="total: ${menuHistory[index].total_price} \n"
+                    }
+                    else{
+                        text="주문 내역이 없습니다"
                     }
                     showDialog(text)
 
