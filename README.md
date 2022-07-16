@@ -47,7 +47,7 @@
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
    
   EX)
-  ```
+  ```kotlin
   @POST("/order")
     fun postOrder(
         @Body body:HashMap<String,Any>
