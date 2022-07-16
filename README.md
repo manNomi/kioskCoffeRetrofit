@@ -67,7 +67,7 @@ POST - 데이터를 올리겠다는 뜻
   
   
 
-```
+```kotlin
 @GET("/category/menu")
     fun getAccountMenu(
         @Query("lang") lang:String,
@@ -87,7 +87,7 @@ GET - 데이터를 가져오는 것
   - 쿼리 옆 괄호는 가져올 데이터의 Key
   - 아래 데이터 클래스는 가져오는 타입임 
   - 
-  ```
+  ```kotlin
 lateinit var retrofit: Retrofit
 lateinit var retrofitHttp: RetrofitService
 fun initRetrofit() {
@@ -100,7 +100,7 @@ fun initRetrofit() {
 
 Json 사용법 
 
-```
+```kotlin
 val gson = Gson()
 val menu = gson.fromJson(response.body()!!.data[index], MenuListData::class.java)
 ```
