@@ -47,6 +47,7 @@
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
    
   EX)
+  ```
   @POST("/order")
     fun postOrder(
         @Body body:HashMap<String,Any>
@@ -56,6 +57,7 @@ data class InputHistory(
     var message:String ,
     var success:Boolean
 )
+```
 
 POST - 데이터를 올리겠다는 뜻 
   - 포스트 옆의 "/order"은 이름이라고 보면 된다 (백엔드의)
@@ -65,7 +67,8 @@ POST - 데이터를 올리겠다는 뜻
   
   
 
-```@GET("/category/menu")
+```
+@GET("/category/menu")
     fun getAccountMenu(
         @Query("lang") lang:String,
         @Query("category_name") category_name:String
@@ -76,28 +79,31 @@ data class MenuData(
     var success: Boolean,
     var data: JsonArray
 )
+```
 
 GET - 데이터를 가져오는 것 
   - "/category/menu"- 이름 
   - get에서는 쿼리를 통해 가져옴 
   - 쿼리 옆 괄호는 가져올 데이터의 Key
   - 아래 데이터 클래스는 가져오는 타입임 
-  
+  - 
+  ```
 lateinit var retrofit: Retrofit
 lateinit var retrofitHttp: RetrofitService
 fun initRetrofit() {
         retrofit= RetrofitClient.initRetrofit()
         retrofitHttp=retrofit!!.create(RetrofitService::class.java)
     }
+    ```
 
 - 레트로핏을 사용하기전 레트로핏을 정의해주는 함수와 전역변수 (문법) - 즉 외우자 
 
 Json 사용법 
 
-
+```
 val gson = Gson()
 val menu = gson.fromJson(response.body()!!.data[index], MenuListData::class.java)
-
+```
 
 
 
