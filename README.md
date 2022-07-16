@@ -9,7 +9,7 @@
   - 데이터가 달라지더라도 돌아갈 수 있도록 만드는 것이 중요 
   - 서비스의 노티피케이션을 이용해 장바구니 상태 출력 
   - 노티를 누르면 액티비티가 새로 열리는 문제 발생 
-  -> 패딩 인텐트(노티 눌렀을때 이동할 곳 선택)- 눌릴때 까지 기다린다는 뜻 
+  -> 패딩 인텐트(노티 눌렀을때 이동할 곳 선택 / 눌릴때 까지 기다린다는 뜻 )
     - 패딩인텐트를 버튼마다 다르게끔 설정 
     - 런치모드를 통해서 액티비티가 중복으로 되지 않도록 설정함으로써 해결 
   
@@ -139,6 +139,38 @@ val myAccountData=gson.toJson(recipt)
   - 데이터 클래스의 변수명이 Key 
   - 데이터 클래스안에 데이터를 넣고 
   - to Json 함수를 통해서 바꿔준다 
+
+
+### diaglo 사용 법
+
+
+### ASSETS (외부저장소) 사용법 
+- 위 파일에는 없지만 아웃백 키오스크를 만들때 json 파일을 가져오면서 사용 
+
+#### assets 파일 생성 - app 에 생성하면 됨 
+
+  - assets 파일에 불러올 파일들 저장하면 된다 
+  - 드래그후 리팩터 해줘도 됨 
+  - 
+#### assets 파일 오픈
+
+```koltin
+val jsonString = assets.open("data.json").reader().readText()
+```
+- json 파일을 열때에는 위와같이 해주면 jsonString을 받아올 수 있다 
+
+```koltin
+picture=mutableListOf<Bitmap>()
+val image = assets.open("image.png")
+var bitmap: Bitmap = BitmapFactory.decodeStream(image)
+picture.add(bitmap)
+```
+- image 파일을 열려면 비트맵을 활용해야함 
+- 비트맵을 통해 디코드 하는 과정이 필요 
+- 위 과정은 문법이므로 외우도록 / pixmap 과의 차이점 생각하기 
+- *pixmap - 픽셀로 이루어진 맵 
+
+
 
 
 
