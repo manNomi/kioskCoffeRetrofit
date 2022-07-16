@@ -143,6 +143,49 @@ val myAccountData=gson.toJson(recipt)
 
 ### diaglo 사용 법
 
+```kotlin
+//커스텀 다이얼로그 - 컨센트레이트 안먹음
+
+// 다이얼로그 프라그먼트 (Dialog.kt)
+class dialog() : DialogFragment(){
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return activity?.let {
+            val inflater = requireActivity().layoutInflater
+            val bundle = arguments
+            val message = bundle!!.getString("text")
+            val builder = AlertDialog.Builder(it)
+            val view=inflater.inflate(R.layout.dialog,null)
+            builder.setView(inflater.inflate(R.layout.dialog, null))
+            builder.apply {
+                setTitle("주문기록")
+                setMessage(message)
+                setNegativeButton("확인",
+                    DialogInterface.OnClickListener { _, _ ->
+                        Log.d("qwe","123")
+                    }
+                )
+            }
+            builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
+    }
+}
+
+// 액티비티 (MainActivity.kt)
+fun showDialog(text:String) {
+        var newFragment= dialog()
+        val bundle = Bundle()
+        bundle.putString("text",text)
+        newFragment.arguments = bundle
+        val fragmentManager=supportFragmentManager
+        newFragment.show(fragmentManager, "dialog")
+    }
+```
+  - 위 클래스는 다이얼로그를 만드는 클래스임 
+  - 다이얼로그도 프라그먼트와 마찬가지로 이뤄짐 
+  - 다이얼로그와 주고 받을 때에는 번들사용 
+  - show 함수를 통해 다이얼로그창 띄움 
+  - *커스텀 다이얼로그에 대한 공부가 좀더 필요 + 다이얼로그 버튼 클릭 부분에 대한 부분도 공부가 좀더 필요해보임
+
 
 ### ASSETS (외부저장소) 사용법 
 - 위 파일에는 없지만 아웃백 키오스크를 만들때 json 파일을 가져오면서 사용 
