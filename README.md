@@ -87,23 +87,60 @@ GET - 데이터를 가져오는 것
   - 쿼리 옆 괄호는 가져올 데이터의 Key
   - 아래 데이터 클래스는 가져오는 타입임 
   - 
-  ```kotlin
+ 
+```kotlin
 lateinit var retrofit: Retrofit
 lateinit var retrofitHttp: RetrofitService
 fun initRetrofit() {
         retrofit= RetrofitClient.initRetrofit()
         retrofitHttp=retrofit!!.create(RetrofitService::class.java)
     }
-    ```
+```
 
 - 레트로핏을 사용하기전 레트로핏을 정의해주는 함수와 전역변수 (문법) - 즉 외우자 
 
 Json 사용법 
 
 ```kotlin
+data class MenuListData(
+        var menu_name: String,
+        var menu_price: Int,
+        var menu_image: String
+    )
+    
 val gson = Gson()
 val menu = gson.fromJson(response.body()!!.data[index], MenuListData::class.java)
 ```
+
+  - 위는 레트로핏을 통해 받은 데이터를 반복문을 통해 모든 데이터를 gSon으로 바꿔주는 것이다 
+  - 데이터 클래스에 있는 변수명이 Key가 된다 
+
+```kotlin
+data class MenuListData(
+        var menu_name: String,
+        var menu_price: Int,
+        var menu_image: String
+    )
+    
+data class reciptData(
+        val name:String,
+        val count:Int,
+        val sum_price:Int
+    )
+    
+val gson= GsonBuilder()
+            .setPrettyPrinting()
+            .create()
+            
+val recipt=reciptData('데이터')
+val myAccountData=gson.toJson(recipt)
+```
+
+  - Gson 객체 선언 후 데이터 클래스 이용 
+  - 데이터 클래스의 변수명이 Key 
+  - 데이터 클래스안에 데이터를 넣고 
+  - to Json 함수를 통해서 바꿔준다 
+
 
 
 
