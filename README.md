@@ -65,7 +65,7 @@ POST - 데이터를 올리겠다는 뜻
   
   
 
-@GET("/category/menu")
+```@GET("/category/menu")
     fun getAccountMenu(
         @Query("lang") lang:String,
         @Query("category_name") category_name:String
