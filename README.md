@@ -213,10 +213,214 @@ picture.add(bitmap)
 - 위 과정은 문법이므로 외우도록 / pixmap 과의 차이점 생각하기 
 - *pixmap - 픽셀로 이루어진 맵 
 
+### 서비스(service)
+  - 서비스는 쓰레드와 비슷한 개념 
 
+#### 서비스를 만들때 쓰는 함수 (MainActivity.kt)
+  - 서비스를 연결하기 위해서 만들어 놓는 함수라고 보면 된다 
+```kotlin 
+var connection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
+            val binder = service as MyService.MyBinder
+            myService = binder.getService()
+            isService = true
+        }
+        override fun onServiceDisconnected(className: ComponentName?) {
+            isService = false
+        }
+    }
+    
+```
 
+#### (MyService.kt) - 서비스가 연결될경우 실행되는 함수 
+```kotlin
+override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return super.onStartCommand(intent, flags, startId)
+    }
+```
 
-
-
-
+#### 바인드 서비스 
+  - 한번만 연결하면 되는 함수 
+  - 한번 연결하면 지속적으로 연결이 되있어서 증복으로 실행해도 실행되지 않는 특징이 있다 
+  - 서비스간 데이터를 주고 받을때 사용 
   
+  ##### 바인드 서비스 연결 함수 
+    - putExtra 함수를 이용해서 바인드 서비스에 정보 전달 가능 
+    
+   #### (MainActivity.kt)
+```kotlin
+fun serviceBind()
+    {
+        intentService= Intent(this, MyService::class.java)
+        intentService.putExtra("DATA",cartClass)
+        bindService(intentService, connection, Context.BIND_AUTO_CREATE)
+    }
+
+    fun serviceUnBind()
+    {
+        if (isService) {
+            unbindService(connection)
+            isService = false
+        }
+    }
+```
+#### (MyService.kt)
+  - bindServiceReturn 함수의 경우 임의로 지정한 함수로서 데이터를 주고받기 위한 함수 
+
+```kotlin
+inner class MyBinder : Binder() {
+        fun getService(): MyService = this@MyService
+    }
+    override fun onBind(intent: Intent): IBinder {
+        if (intent.getSerializableExtra("DATA")as CartClass? !=null){
+            cartClass=intent.getSerializableExtra("DATA")as CartClass
+            totalCal=cartClass.totalCal().toString()
+        }
+
+        return iBinder
+    }
+    fun bindServiceReturn(): CartClass {
+        return cartClass
+    }
+```
+
+#### 노티피케이션 - 포그라운드 서비스 
+  
+  - 포그라운드 서비스는 서비스 중에서도 눈 앞으로 보이는 visible 부분을 바탕으로 함 
+  - 포그라운드는 시작시 onStartCommand 로 값을 보낼 수 있음
+
+
+##### (MainActivity.kt) -포그라운드 서비스 시작 
+```kotlin
+ContextCompat.startForegroundService(this, intentService)
+```
+
+##### (MyService.kt)  - 포그라운드 서비스 종료 
+```kotlin 
+private fun stopForegroundService() {
+        stopForeground(true)
+        stopSelf()
+    }
+    
+```
+
+##### (MyService.kt)  - 노티피케이션 채널 설정 
+            - 안드로이드 오레오(8.0) 26 이상 부터는 노티피케이션의 채널을 설정해야만 함 
+            - 아래 함수는 채널을 설정하는 함수 
+```kotlin
+private fun createNotificationChannel() {
+        val notificationChannel = NotificationChannel(
+            Companion.CHANNEL_ID,
+            "MyApp notification",
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        notificationChannel.enableLights(true)
+        notificationChannel.lightColor = Color.RED
+        notificationChannel.enableVibration(true)
+        notificationChannel.description = "AppApp Tests"
+
+        val notificationManager = applicationContext.getSystemService(
+            Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(
+            notificationChannel)
+    }
+```
+
+#### 노티피케이션 만드는 함수 
+  - 여기서 포인트가 padingIntent를 통해 노티 알람을 눌렀을때 돌아가는 activity를 설정하는 것이다 
+  - padingIntent는 위에서 설명했으니 생략 
+  - 채널을 먼저 만들고 연결해줘야 함을 유의하자 
+
+```kotlin
+fun Notification() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        var intentMainLanding:Intent
+        if (type=="main") {
+            intentMainLanding = Intent(this, MainActivity::class.java)
+        }
+        else{
+            intentMainLanding = Intent(this, CartActivity::class.java)
+        }
+        val pendingIntent = PendingIntent.getActivity(this, 0, intentMainLanding, 0)
+        createNotificationChannel()
+        if (notiManager == null) {
+            notiManager =
+                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        }
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+        builder.setContentTitle(
+            StringBuilder(resources.getString(R.string.app_name)+" 총 금액은 : ${totalCal}")
+        )
+            .setTicker(
+                StringBuilder(("실행중"))
+            )
+            .setSmallIcon(R.mipmap.outback_logo)
+            .setOnlyAlertOnce(true)
+            .setContentIntent(pendingIntent)
+            .setOngoing(true)
+        noti = builder.build()
+        startForeground(10, noti)
+    }
+}
+```
+
+
+#### splash - 로딩화면 
+  - splash의 경우 나중에 서비스로 구현하는 것이 좋음
+  - 현재의 방식은 무조건 2 초간 띄우는 방식인데 비효율적이고 로딩화면의 의미가 퇴색됨 
+  - DURATION 이 시간을 의미 (이시간동안 기다렸다가 실행한다 라는 뜻)
+  - intent 를 통해 다음 페이지를 설정 
+
+##### (StartAcitivity.kt)
+```kotlin 
+class StartActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.start_page_activity)
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+            finish()
+        }, DURATION)
+    }
+    companion object {
+        private const val DURATION : Long = 2000
+    }
+    override fun onBackPressed() {
+//        super.onBackPressed()
+    }
+}
+```
+
+#### 뒤로가기 버튼 
+  - 위 앱은 액티비티를 쌓지 않는 방식이기에 뒤로가기 버튼을 막는다 
+  - 핸들러를 이용해서 만들었다 
+ 
+  - 뒤로가기 버튼을 누르면 토스트로 "한번더 누르시면 종료합니다" 를 출력 
+  - 뒤로가기를 누른뒤 1.5초 내에 다시 클릭하면 종료 되도록 설정했다 
+  - 함수는 다음과 같다 
+  - 땜빵의 느낌이 강하지만 해결한 모습
+  
+   * 핸들러의 경우 작은 쓰레드의 개념으로 생각해도 괜찮다 
+   - (핸들러란, worker thread 에서 main thread 로 메시지를 전달해주는 역할을 하는 클래스이다.)
+
+```kotin
+//    <뒤로가기 설정
+    override fun onBackPressed() {
+        if (doubleBackToExit) {
+            finishAffinity()
+        } else {
+            Toast.makeText(this, "종료하시려면 뒤로가기를 한번 더 눌러주세요.", Toast.LENGTH_SHORT).show()
+            doubleBackToExit = true
+            runDelayed(1500L) {
+                doubleBackToExit = false
+            }
+        }
+    }
+    fun runDelayed(millis: Long, function: () -> Unit) {
+        Handler(Looper.getMainLooper()).postDelayed(function, millis)
+    }
+//    뒤로가기 설정 >
+```
+
