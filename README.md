@@ -405,7 +405,7 @@ class StartActivity : AppCompatActivity() {
    * 핸들러의 경우 작은 쓰레드의 개념으로 생각해도 괜찮다 
    - (핸들러란, worker thread 에서 main thread 로 메시지를 전달해주는 역할을 하는 클래스이다.)
 
-```kotin
+```kotlin
 //    <뒤로가기 설정
     override fun onBackPressed() {
         if (doubleBackToExit) {
