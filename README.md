@@ -194,15 +194,15 @@ fun showDialog(text:String) {
 
   - assets 파일에 불러올 파일들 저장하면 된다 
   - 드래그후 리팩터 해줘도 됨 
-  - 
+
 #### assets 파일 오픈
 
-```koltin
+```kotlin
 val jsonString = assets.open("data.json").reader().readText()
 ```
 - json 파일을 열때에는 위와같이 해주면 jsonString을 받아올 수 있다 
 
-```koltin
+```kotlin
 picture=mutableListOf<Bitmap>()
 val image = assets.open("image.png")
 var bitmap: Bitmap = BitmapFactory.decodeStream(image)
