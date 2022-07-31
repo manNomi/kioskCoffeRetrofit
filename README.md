@@ -100,6 +100,16 @@ fun initRetrofit() {
 
 ### Json 사용법 
 
+빌드 씽크 
+
+```kotlin
+//    gson 제이슨을 객체로 인식하고 쓸수 있도록
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation("commons-io:commons-io:2.8.0")
+```
+
+
 ```kotlin
 data class MenuListData(
         var menu_name: String,
